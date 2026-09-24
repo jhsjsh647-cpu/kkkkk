@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>FX Client</title>
+  <meta name="description" content="Modified Version of Territorial.io - FX Client">
+  <meta name="keywords" content="territorial.io,territory games,territorial io,map games,conquest games">
+  <meta name="author" content="MohsenEMX, peshomir, orlemley1, David Tschacher">
+  <meta name="viewport" content="width=device-width, maximum-scale=1">
+  <link rel="shortcut icon" href="https://fxclient.github.io/FXclient/favicon.ico" type="image/x-icon">
+
+  <!--
+    ═══════════════════════════════════════════════════════════════════════
+    SETUP — 3 files go in your GitHub repo:
+      index.html   (this file)
+      script.js    (your bot-modified game)
+      echoclient.js (your echo bot UI)
+
+    Everything else (CSS, variables, fx bundle) loads from the FX client
+    CDN so you don't need to upload 3MB of assets.
+
+    HOST ON GITHUB PAGES:
+      1. Create repo  →  upload these 3 files
+      2. Settings → Pages → Source: main branch / root
+      3. Play at:  https://YOURNAME.github.io/REPONAME/
+
+    github.io is in the Turnstile sitekey allowlist — Turnstile auto-solves,
+    real token is sent, server accepts, error 4591 is gone.
+    ═══════════════════════════════════════════════════════════════════════
+  -->
+
+  <!-- CSS from FX client CDN -->
+  <link rel="stylesheet" href="https://fxclient.github.io/FXclient/main.css">
+
+  <style>
+    html, body {
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+      background: rgb(0, 0, 0);
+      color: rgb(255, 255, 255);
+    }
+    * { box-sizing: border-box; }
+    a { color: rgb(225, 225, 255); }
+  </style>
+</head>
+
+<body onload="aiCommand746(0);">
+  <canvas id="canvasA" width="128" height="128"></canvas>
+
+  <span id="windowContainer">
+    <div class="window flex-column settings" style="display:none">
+      <h1>Settings</h1>
+      <div class="scrollable"></div>
+      <hr>
+      <footer>
+        <button onclick="__fx.settingsManager.resetAll()">Reset Settings</button>
+        <button onclick="__fx.settingsManager.save()">Save Settings</button>
+        <button onclick="__fx.settingsManager.importFromFile()">Import</button>
+        <button onclick="__fx.settingsManager.exportToFile()">Export</button>
+      </footer>
+    </div>
+
+    <div class="window flex-column" id="customLobbyJoinMenu" style="display:none">
+      <input type="text" id="lobbyCode" placeholder="Enter lobby code">
+      or
+      <div>
+        <button id="createLobbyButton">Create new lobby</button>
+        <label for="region">in region:</label>
+        <select id="customLobbyRegion" name="region"
+          title="Region selection is best-effort. Listed regions are a subset of all possible locations.">
+          <option value="default" selected>Automatic (closest to you)</option>
+          <option value="wnam">Western North America</option>
+          <option value="enam">Eastern North America</option>
+          <option value="weur">Western Europe</option>
+          <option value="eeur">Eastern Europe</option>
+          <option value="apac">Asia-Pacific</option>
+          <option value="oc">Oceania</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="window scrollable selectable" id="playerlist" style="display:none">
+      <h1>Player List</h1>
+      <table><tbody id="playerlist_content"></tbody></table>
+    </div>
+
+    <div class="window scrollable selectable" id="donationhistory" style="display:none">
+      <h1>Donation history for </h1>
+      <p id="donationhistory_note">Note: donations from bots are not shown here</p>
+      <table><tbody id="donationhistory_content"></tbody></table>
+    </div>
+
+    <div class="window" style="display:none" id="updateNotification">
+      <h3>A new version of FX is available! Click "Update" to update</h3>
+      <button id="swUpdateButton">Update</button>
+      <button onclick="document.getElementById('updateNotification').style.display='none'">Dismiss</button>
+    </div>
+  </span>
+
+  <!--
+    Load order matters:
+      1. variables.js  — game constants, must be first
+      2. fx.bundle.js  — FX client framework
+      3. script.js     — YOUR file (replaces game.js, contains echo bot)
+      4. echoclient.js — YOUR file (echo bot UI, injected after game init)
+
+    variables.js and fx.bundle.js come from the FX CDN.
+    If the CDN build number changes, update the ?v= param below to bust cache.
+    Current FX build: 1787301064820
+  -->
+  <script src="https://fxclient.github.io/FXclient/variables.js?v=1787301064820"></script>
+  <script src="https://fxclient.github.io/FXclient/fx.bundle.js?v=1787301064820"></script>
+
+  <!-- Your modified game (replaces game.js) -->
+  <script src="script.js"></script>
+  <script src="game.js"></script>
+
+  <!-- Echo bot UI — loads after game initialises -->
+  <script src="echoclient.js"></script>
+
+</body>
+</html>
